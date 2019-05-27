@@ -17,6 +17,7 @@ final ThemeData kDefaultTheme = new ThemeData(
 
 TargetPlatform getPlatform(BuildContext context) {
   return Theme.of(context).platform;
+//  return TargetPlatform.iOS;
 }
 
 bool isIos(BuildContext context) => getPlatform(context) == TargetPlatform.iOS;
@@ -184,10 +185,5 @@ class ChatMessage extends StatelessWidget {
         ),
       ),
     );
-  }
-}
-
-class Player {
-  void hello() {
   }
 }
