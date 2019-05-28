@@ -6,6 +6,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'chat/ChatScreen.dart';
+import 'gtd/todo.dart';
 import 'platformutils.dart';
 
 void main() => runApp(DemoApp());
@@ -49,7 +50,8 @@ class HomeScreen extends StatelessWidget {
               onTap: () => Navigator.of(context).push(MaterialPageRoute(builder: (context) => new ChatScreen())),
             ),
             ListTile(
-              title: Text("haha"),
+              title: Text("Todo"),
+              onTap: () => Navigator.of(context).push(MaterialPageRoute(builder: (context) => new TodayTodoScreen())),
             )
           ],
         ),
