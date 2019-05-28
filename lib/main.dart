@@ -28,11 +28,24 @@ class DemoApp extends StatelessWidget {
       home: new HomeScreen(),
       theme: isIos(context) ? kIOSTheme : kDefaultTheme,
     );
-    ;
   }
 }
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() {
+    return HomeScreenState();
+  }
+
+}
+
+class HomeScreenState extends State<HomeScreen> {
+
+  int _currentIndex = 0;
+  final List<Widget> _widgets = <Widget>[
+    ChatScreen(), TodayTodoScreen(), Text("hello")
+  ];
+
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
@@ -56,9 +69,34 @@ class HomeScreen extends StatelessWidget {
           ],
         ),
       ),
-      body: Text("hello world"),
+      body: _widgets[_currentIndex],
+      bottomNavigationBar: BottomNavigationBar(
+        onTap: onTapped,
+        currentIndex: _currentIndex,
+        items: [
+          new BottomNavigationBarItem(
+              icon: Icon(Icons.home),
+              title: Text("home")
+          ),
+          new BottomNavigationBarItem(
+              icon: Icon(Icons.today),
+              title: Text("today")
+          ),
+          new BottomNavigationBarItem(
+              icon: Icon(Icons.settings),
+              title: Text("settings")
+          )
+        ],
+      ),
     );
   }
+
+  void onTapped(int index) {
+    setState(() {
+      _currentIndex = index;
+    });
+  }
+
 }
 
 
