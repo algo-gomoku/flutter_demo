@@ -64,19 +64,50 @@ class TodoListItemView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: Text(item.title),
+      child: Text(
+        item.title,
+        style: getTextColor(),
+      ),
       margin: EdgeInsets.symmetric(vertical: 5, horizontal: 8),
     );
+  }
+
+  TextStyle getTextColor() {
+    Color color;
+    switch (item.state) {
+      case TodoState.CLOCKING:
+        color = Colors.lightGreenAccent;
+        break;
+      case TodoState.DONE:
+        color = Colors.green;
+        break;
+      default:
+        color = Colors.black;
+    }
+    return TextStyle(color: color);
   }
 }
 
 class TodoItem {
   final String title;
-  final String state;
+  final TodoState state;
   final List<String> tags;
 
   TodoItem.fromJson(Map<String, dynamic> json)
       : title = json['title'],
-        state = json['state'],
+        state = getStateFromString(json['state']),
         tags = json['tags'].cast<String>();
+
+  static TodoState getStateFromString(state) {
+    switch (state) {
+      case "DONE":
+        return TodoState.DONE;
+      case "DELAY":
+        return TodoState.DELAY;
+      case "CLOCKING":
+        return TodoState.CLOCKING;
+    }
+  }
 }
+
+enum TodoState { DONE, DELAY, CLOCKING }
