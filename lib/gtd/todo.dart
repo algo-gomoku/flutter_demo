@@ -1,5 +1,3 @@
-
-
 import 'dart:convert';
 import 'dart:io';
 
@@ -32,23 +30,26 @@ class TodayTodoScreenState extends State<TodayTodoScreen> {
 
     final responseBody = await httpResponse.transform(utf8.decoder).join();
     final jsonResponse = json.decode(responseBody);
-
+    print(jsonResponse);
     setState(() {
       todoItems = jsonResponse['data'];
     });
-
   }
 
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
-      appBar: AppBar(title: Text("Todo"),),
+      appBar: AppBar(
+        title: Text("Todo"),
+      ),
       body: ListView.separated(
         itemBuilder: (context, index) {
           print(todoItems[index]);
-          return TodoListItemView(todoItems[index]);
+          return TodoListItemView(TodoItem.fromJson(todoItems[index]));
         },
-        separatorBuilder: (context, index) => Divider(color: Colors.grey[200],),
+        separatorBuilder: (context, index) => Divider(
+              color: Colors.grey[200],
+            ),
         itemCount: todoItems.length,
       ),
     );
@@ -57,13 +58,25 @@ class TodayTodoScreenState extends State<TodayTodoScreen> {
 
 class TodoListItemView extends StatelessWidget {
   TodoListItemView(this.item);
-  final Map<String, dynamic> item;
+
+  final TodoItem item;
+
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: Text(item['title']),
+      child: Text(item.title),
       margin: EdgeInsets.symmetric(vertical: 5, horizontal: 8),
     );
   }
+}
 
+class TodoItem {
+  final String title;
+  final String state;
+  final List<String> tags;
+
+  TodoItem.fromJson(Map<String, dynamic> json)
+      : title = json['title'],
+        state = json['state'],
+        tags = json['tags'].cast<String>();
 }
