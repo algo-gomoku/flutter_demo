@@ -4,13 +4,17 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 
 class TodayTodoScreen extends StatefulWidget {
+  TodayTodoScreen({this.showAppBar});
+  bool showAppBar;
   @override
   State<StatefulWidget> createState() {
-    return TodayTodoScreenState();
+    return TodayTodoScreenState(showAppBar);
   }
 }
 
 class TodayTodoScreenState extends State<TodayTodoScreen> {
+  TodayTodoScreenState(this.showAppBar);
+  bool showAppBar = true;
   List<dynamic> todoItems = [];
 
   @override
@@ -39,9 +43,9 @@ class TodayTodoScreenState extends State<TodayTodoScreen> {
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
-      appBar: AppBar(
-        title: Text("Todo"),
-      ),
+      appBar: showAppBar ?
+        AppBar(title: Text("Todo")) : null
+    ,
       body: ListView.separated(
         itemBuilder: (context, index) {
           print(todoItems[index]);

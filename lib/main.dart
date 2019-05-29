@@ -43,7 +43,7 @@ class HomeScreenState extends State<HomeScreen> {
 
   int _currentIndex = 0;
   final List<Widget> _widgets = <Widget>[
-    ChatScreen(), TodayTodoScreen(), Text("hello")
+    TodayTodoScreen(showAppBar: false,), Text("hello")
   ];
 
   @override
@@ -64,7 +64,7 @@ class HomeScreenState extends State<HomeScreen> {
             ),
             ListTile(
               title: Text("Todo"),
-              onTap: () => Navigator.of(context).push(MaterialPageRoute(builder: (context) => new TodayTodoScreen())),
+              onTap: () => Navigator.of(context).push(MaterialPageRoute(builder: (context) => new TodayTodoScreen(showAppBar: true,))),
             )
           ],
         ),
@@ -74,10 +74,6 @@ class HomeScreenState extends State<HomeScreen> {
         onTap: onTapped,
         currentIndex: _currentIndex,
         items: [
-          new BottomNavigationBarItem(
-              icon: Icon(Icons.home),
-              title: Text("home")
-          ),
           new BottomNavigationBarItem(
               icon: Icon(Icons.today),
               title: Text("today")
