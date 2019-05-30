@@ -2,10 +2,13 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_calendar/flutter_calendar.dart';
 
 class TodayTodoScreen extends StatefulWidget {
   TodayTodoScreen({this.showAppBar});
+
   bool showAppBar;
+
   @override
   State<StatefulWidget> createState() {
     return TodayTodoScreenState(showAppBar);
@@ -14,14 +17,22 @@ class TodayTodoScreen extends StatefulWidget {
 
 class TodayTodoScreenState extends State<TodayTodoScreen> {
   TodayTodoScreenState(this.showAppBar);
+
   bool showAppBar = true;
   List<dynamic> todoItems = [];
+  Calendar calendar;
 
   @override
   void initState() {
     super.initState();
+    calendar = new Calendar(
+      isExpandable: true,
+      onDateSelected: onDateSelect,
+    );
     requestTodayTodos();
   }
+
+  void onDateSelect(DateTime date) {}
 
   void requestTodayTodos() async {
     final uri = Uri.http("118.89.57.250", '/api/todos', {});
@@ -37,19 +48,21 @@ class TodayTodoScreenState extends State<TodayTodoScreen> {
     print(jsonResponse);
     setState(() {
       todoItems = jsonResponse['data'];
+      todoItems.insert(0, calendar);
     });
   }
 
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
-      appBar: showAppBar ?
-        AppBar(title: Text("Todo")) : null
-    ,
+      appBar: showAppBar ? AppBar(title: Text("Todo")) : null,
       body: ListView.separated(
         itemBuilder: (context, index) {
-          print(todoItems[index]);
-          return TodoListItemView(TodoItem.fromJson(todoItems[index]));
+          if (index == 0) {
+            return todoItems[index];
+          } else {
+            return TodoListItemView(TodoItem.fromJson(todoItems[index]));
+          }
         },
         separatorBuilder: (context, index) => Divider(
               color: Colors.grey[200],

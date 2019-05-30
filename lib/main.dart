@@ -76,7 +76,7 @@ class HomeScreenState extends State<HomeScreen> {
         items: [
           new BottomNavigationBarItem(
               icon: Icon(Icons.today),
-              title: Text("today")
+              title: Text("TODO")
           ),
           new BottomNavigationBarItem(
               icon: Icon(Icons.settings),
