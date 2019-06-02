@@ -51,7 +51,7 @@ void requestProjectTodos(String project, Function fun) async {
 
 dynamic _requestJson(String urlPath, [Map<String, String> queryParameters]) async {
   final uri = Uri.http(_HOST, urlPath, queryParameters);
-  print(uri)
+  print(uri);
   final httpClient = HttpClient();
   final httpRequest = await httpClient.getUrl(uri);
   final httpResponse = await httpRequest.close();
