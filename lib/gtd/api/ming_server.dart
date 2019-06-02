@@ -1,8 +1,8 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:flutter_app/gtd/model/ProjectItem.dart';
-import 'package:flutter_app/gtd/model/TodoItem.dart';
+import 'package:Orgtd/gtd/model/ProjectItem.dart';
+import 'package:Orgtd/gtd/model/TodoItem.dart';
 
 final String _HOST = "118.89.57.250";
 
