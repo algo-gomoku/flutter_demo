@@ -52,7 +52,7 @@ class HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return new Scaffold(
       appBar: new AppBar(
-        title: new Text("Org"),
+        title: new Text("Orgtd"),
         elevation: isIos(context) ? 0.0 : 4.0,
       ),
       drawer: Drawer(
