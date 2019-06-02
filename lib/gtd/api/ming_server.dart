@@ -1,6 +1,7 @@
 import 'dart:convert';
-
 import 'dart:io';
+
+import 'package:flutter_app/gtd/model/TodoItem.dart';
 
 void requestTodayTodos(Function fun) async {
   final uri = Uri.http("118.89.57.250", '/api/todos', {});
@@ -14,5 +15,10 @@ void requestTodayTodos(Function fun) async {
   final responseBody = await httpResponse.transform(utf8.decoder).join();
   final jsonResponse = json.decode(responseBody);
   print(jsonResponse);
-  fun(jsonResponse);
+
+  List<dynamic> list = jsonResponse['data'];
+  List<TodoItem> todoItems =
+      list.map((item) => TodoItem.fromJson(item)).toList();
+
+  fun(todoItems);
 }

@@ -19,7 +19,7 @@ class TodayTodoScreenState extends State<TodayTodoScreen> {
   TodayTodoScreenState(this.showAppBar);
 
   bool showAppBar = true;
-  List<dynamic> todoItems = [];
+  List<TodoItem> todoItems = [];
   Calendar calendar;
 
   @override
@@ -29,9 +29,8 @@ class TodayTodoScreenState extends State<TodayTodoScreen> {
       isExpandable: true,
       onDateSelected: onDateSelect,
     );
-    requestTodayTodos((jsonResponse) => setState(() {
-          todoItems = jsonResponse['data'];
-          todoItems.insert(0, calendar);
+    requestTodayTodos((items) => setState(() {
+          todoItems = items;
         }));
   }
 
@@ -41,18 +40,23 @@ class TodayTodoScreenState extends State<TodayTodoScreen> {
   Widget build(BuildContext context) {
     return new Scaffold(
       appBar: showAppBar ? AppBar(title: Text("Todo")) : null,
-      body: ListView.separated(
-        itemBuilder: (context, index) {
-          if (index == 0) {
-            return todoItems[index];
-          } else {
-            return TodoListItemView(TodoItem.fromJson(todoItems[index]));
-          }
-        },
-        separatorBuilder: (context, index) => Divider(
-              color: Colors.grey[200],
+      body: Column(
+        children: <Widget>[
+          new Calendar(
+            isExpandable: true,
+          ),
+          Expanded(
+            child: ListView.separated(
+              itemBuilder: (context, index) {
+                return TodoListItemView(todoItems[index]);
+              },
+              separatorBuilder: (context, index) => Divider(
+                    color: Colors.grey[200],
+                  ),
+              itemCount: todoItems.length,
             ),
-        itemCount: todoItems.length,
+          )
+        ],
       ),
     );
   }
