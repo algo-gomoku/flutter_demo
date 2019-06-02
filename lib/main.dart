@@ -55,28 +55,6 @@ class HomeScreenState extends State<HomeScreen> {
         title: new Text("Orgtd"),
         elevation: isIos(context) ? 0.0 : 4.0,
       ),
-      drawer: Drawer(
-        child: ListView(
-          padding: EdgeInsets.zero,
-          children: <Widget>[
-            SizedBox(
-              height: 40,
-            ),
-            ListTile(
-              title: Text("chat demo"),
-              onTap: () => Navigator.of(context).push(
-                  MaterialPageRoute(builder: (context) => new ChatScreen())),
-            ),
-            ListTile(
-              title: Text("Todo"),
-              onTap: () => Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => new TodayTodoScreen(
-                        showAppBar: true,
-                      ))),
-            )
-          ],
-        ),
-      ),
       body: _widgets[_currentIndex],
       bottomNavigationBar: BottomNavigationBar(
         onTap: onTapped,
