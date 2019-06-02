@@ -33,6 +33,21 @@ void requestProjects(Function fun) async {
   fun(items);
 }
 
+void requestProjectTodos(String project, Function fun) async {
+
+  dynamic jsonResult = await requestJson('/api/projects/$project/todos');
+  if (jsonResult == null) {
+    return;
+  }
+
+  List<dynamic> list = jsonResult['data'];
+  List<TodoItem> items =
+  list.map((item) => TodoItem.fromJson(item)).toList();
+
+  fun(items);
+}
+
+
 dynamic requestJson(String urlPath) async {
   final uri = Uri.http(_HOST, urlPath, {});
   final httpClient = HttpClient();

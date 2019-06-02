@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/gtd/projecttodos.dart';
 
 import 'api/ming_server.dart';
 import 'model/ProjectItem.dart';
@@ -24,11 +25,12 @@ class ProjectListScreenState extends State<ProjectListScreen> {
   @override
   Widget build(BuildContext context) {
     return ListView.separated(
-        itemBuilder: (context, index) => ProjectListItem(_items[index]),
-        separatorBuilder: (context, index) => Divider(
-              color: Colors.grey[200],
-            ),
-        itemCount: _items.length);
+      itemBuilder: (context, index) => ProjectListItem(_items[index]),
+      separatorBuilder: (context, index) => Divider(
+            color: Colors.grey[200],
+          ),
+      itemCount: _items.length,
+    );
   }
 }
 
@@ -39,11 +41,17 @@ class ProjectListItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Text(
+    return ListTile(
+      title: Text(
         item.title,
       ),
-      margin: EdgeInsets.symmetric(vertical: 5, horizontal: 8),
+      onTap: () => {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) =>
+                        ProjectTodoListScreen(title: item.title)))
+          },
     );
   }
 }
