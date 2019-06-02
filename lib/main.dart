@@ -6,6 +6,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'chat/ChatScreen.dart';
+import 'gtd/project.dart';
 import 'gtd/todo.dart';
 import 'platformutils.dart';
 
@@ -18,7 +19,6 @@ final ThemeData kIOSTheme = new ThemeData(
 
 final ThemeData kDefaultTheme = new ThemeData(
     primarySwatch: Colors.purple, accentColor: Colors.orangeAccent[400]);
-
 
 class DemoApp extends StatelessWidget {
   @override
@@ -36,35 +36,43 @@ class HomeScreen extends StatefulWidget {
   State<StatefulWidget> createState() {
     return HomeScreenState();
   }
-
 }
 
 class HomeScreenState extends State<HomeScreen> {
-
   int _currentIndex = 0;
   final List<Widget> _widgets = <Widget>[
-    TodayTodoScreen(showAppBar: false,), Text("hello")
+    TodayTodoScreen(
+      showAppBar: false,
+    ),
+    ProjectListScreen(),
+    Text("hello")
   ];
 
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
       appBar: new AppBar(
-        title: new Text("Main"),
+        title: new Text("Org"),
         elevation: isIos(context) ? 0.0 : 4.0,
       ),
       drawer: Drawer(
         child: ListView(
           padding: EdgeInsets.zero,
           children: <Widget>[
-            SizedBox(height: 40,),
+            SizedBox(
+              height: 40,
+            ),
             ListTile(
               title: Text("chat demo"),
-              onTap: () => Navigator.of(context).push(MaterialPageRoute(builder: (context) => new ChatScreen())),
+              onTap: () => Navigator.of(context).push(
+                  MaterialPageRoute(builder: (context) => new ChatScreen())),
             ),
             ListTile(
               title: Text("Todo"),
-              onTap: () => Navigator.of(context).push(MaterialPageRoute(builder: (context) => new TodayTodoScreen(showAppBar: true,))),
+              onTap: () => Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => new TodayTodoScreen(
+                        showAppBar: true,
+                      ))),
             )
           ],
         ),
@@ -75,13 +83,11 @@ class HomeScreenState extends State<HomeScreen> {
         currentIndex: _currentIndex,
         items: [
           new BottomNavigationBarItem(
-              icon: Icon(Icons.today),
-              title: Text("TODO")
-          ),
+              icon: Icon(Icons.today), title: Text("TODO")),
           new BottomNavigationBarItem(
-              icon: Icon(Icons.settings),
-              title: Text("settings")
-          )
+              icon: Icon(Icons.next_week), title: Text("Projects")),
+          new BottomNavigationBarItem(
+              icon: Icon(Icons.settings), title: Text("settings"))
         ],
       ),
     );
@@ -92,9 +98,4 @@ class HomeScreenState extends State<HomeScreen> {
       _currentIndex = index;
     });
   }
-
 }
-
-
-
-
