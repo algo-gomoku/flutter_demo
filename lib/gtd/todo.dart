@@ -101,6 +101,9 @@ class TodoListItemView extends StatelessWidget {
       case TodoState.DONE:
         color = Colors.green;
         break;
+      case TodoState.DELAY:
+        color = Colors.redAccent;
+        break;
       default:
         color = Colors.black;
     }
