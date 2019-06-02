@@ -1,8 +1,8 @@
-import 'dart:convert';
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_calendar/flutter_calendar.dart';
+
+import 'api/ming_server.dart';
+import 'model/TodoItem.dart';
 
 class TodayTodoScreen extends StatefulWidget {
   TodayTodoScreen({this.showAppBar});
@@ -29,28 +29,13 @@ class TodayTodoScreenState extends State<TodayTodoScreen> {
       isExpandable: true,
       onDateSelected: onDateSelect,
     );
-    requestTodayTodos();
+    requestTodayTodos((jsonResponse) => setState(() {
+          todoItems = jsonResponse['data'];
+          todoItems.insert(0, calendar);
+        }));
   }
 
   void onDateSelect(DateTime date) {}
-
-  void requestTodayTodos() async {
-    final uri = Uri.http("118.89.57.250", '/api/todos', {});
-    final httpClient = HttpClient();
-    final httpRequest = await httpClient.getUrl(uri);
-    final httpResponse = await httpRequest.close();
-    if (httpResponse.statusCode != HttpStatus.ok) {
-      return;
-    }
-
-    final responseBody = await httpResponse.transform(utf8.decoder).join();
-    final jsonResponse = json.decode(responseBody);
-    print(jsonResponse);
-    setState(() {
-      todoItems = jsonResponse['data'];
-      todoItems.insert(0, calendar);
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -104,27 +89,3 @@ class TodoListItemView extends StatelessWidget {
     return TextStyle(color: color);
   }
 }
-
-class TodoItem {
-  final String title;
-  final TodoState state;
-  final List<String> tags;
-
-  TodoItem.fromJson(Map<String, dynamic> json)
-      : title = json['title'],
-        state = getStateFromString(json['state']),
-        tags = json['tags'].cast<String>();
-
-  static TodoState getStateFromString(state) {
-    switch (state) {
-      case "DONE":
-        return TodoState.DONE;
-      case "DELAY":
-        return TodoState.DELAY;
-      case "CLOCKING":
-        return TodoState.CLOCKING;
-    }
-  }
-}
-
-enum TodoState { DONE, DELAY, CLOCKING }
