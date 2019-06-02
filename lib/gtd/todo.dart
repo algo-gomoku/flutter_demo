@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_calendar/flutter_calendar.dart';
+import 'package:intl/intl.dart';
 
 import 'api/ming_server.dart';
 import 'model/TodoItem.dart';
@@ -30,9 +31,11 @@ class TodayTodoScreenState extends State<TodayTodoScreen> {
       isExpandable: true,
       onDateSelected: onDateSelect,
     );
-    requestTodayTodos((items) => setState(() {
-          todoItems = items;
-        }));
+    requestTodos(
+        fmtDate(DateTime.now()),
+        (items) => setState(() {
+              todoItems = items;
+            }));
   }
 
   void onDateSelect(DateTime date) {}
@@ -45,6 +48,11 @@ class TodayTodoScreenState extends State<TodayTodoScreen> {
         children: <Widget>[
           new Calendar(
             isExpandable: true,
+            onDateSelected: (date) => requestTodos(
+                fmtDate(date),
+                (items) => setState(() {
+                      todoItems = items;
+                    })),
           ),
           Expanded(
             child: ListView.separated(
@@ -60,6 +68,11 @@ class TodayTodoScreenState extends State<TodayTodoScreen> {
         ],
       ),
     );
+  }
+
+  String fmtDate(DateTime date) {
+    final format = DateFormat("yyyy-MM-dd");
+    return format.format(date);
   }
 }
 

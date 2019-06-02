@@ -6,8 +6,9 @@ import 'package:flutter_app/gtd/model/TodoItem.dart';
 
 final String _HOST = "118.89.57.250";
 
-void requestTodayTodos(Function fun) async {
-  dynamic jsonResult = await requestJson('/api/todos');
+void requestTodos(String date, Function fun) async {
+  print(date);
+  dynamic jsonResult = await _requestJson('/api/todos', {"date": date});
   if (jsonResult == null) {
     return;
   }
@@ -21,7 +22,7 @@ void requestTodayTodos(Function fun) async {
 
 void requestProjects(Function fun) async {
 
-  dynamic jsonResult = await requestJson('/api/projects');
+  dynamic jsonResult = await _requestJson('/api/projects');
   if (jsonResult == null) {
     return;
   }
@@ -35,7 +36,7 @@ void requestProjects(Function fun) async {
 
 void requestProjectTodos(String project, Function fun) async {
 
-  dynamic jsonResult = await requestJson('/api/projects/$project/todos');
+  dynamic jsonResult = await _requestJson('/api/projects/$project/todos');
   if (jsonResult == null) {
     return;
   }
@@ -48,8 +49,9 @@ void requestProjectTodos(String project, Function fun) async {
 }
 
 
-dynamic requestJson(String urlPath) async {
-  final uri = Uri.http(_HOST, urlPath, {});
+dynamic _requestJson(String urlPath, [Map<String, String> queryParameters]) async {
+  final uri = Uri.http(_HOST, urlPath, queryParameters);
+  print(uri)
   final httpClient = HttpClient();
   final httpRequest = await httpClient.getUrl(uri);
   final httpResponse = await httpRequest.close();
