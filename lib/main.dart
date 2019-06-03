@@ -5,7 +5,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import 'chat/ChatScreen.dart';
 import 'gtd/project.dart';
 import 'gtd/todo.dart';
 import 'platformutils.dart';
