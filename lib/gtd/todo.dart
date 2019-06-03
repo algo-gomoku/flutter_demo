@@ -1,3 +1,4 @@
+import 'package:Orgtd/gtd/tododetail.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_calendar/flutter_calendar.dart';
 import 'package:intl/intl.dart';
@@ -83,12 +84,15 @@ class TodoListItemView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Text(
+    return ListTile(
+      title: Text(
         item.title,
         style: getTextColor(),
       ),
-      margin: EdgeInsets.symmetric(vertical: 5, horizontal: 8),
+      onTap: () => Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => TodoDetailScreen(title: item.title))),
     );
   }
 
@@ -109,4 +113,6 @@ class TodoListItemView extends StatelessWidget {
     }
     return TextStyle(color: color);
   }
+
+  void onItemTap() {}
 }
